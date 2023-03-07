@@ -17,6 +17,7 @@ class DashBoardScreen extends StatefulWidget {
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
   PageController page = PageController();
+  SideMenuController sideMenu = SideMenuController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +55,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SideMenu(
-            controller: page,
+            controller: sideMenu,
             style: SideMenuStyle(
               // showTooltip: false,
               displayMode: SideMenuDisplayMode.auto,
@@ -87,17 +88,17 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               SideMenuItem(
                 priority: 0,
                 title: 'Quảng cáo',
-                onTap: () {
-                  page.jumpToPage(0);
+                onTap: (page,_) {
+                  sideMenu.changePage(0);
                 },
                 icon: const Icon(CupertinoIcons.photo),
               ),
               SideMenuItem(
                 priority: 1,
                 title: 'Danh sách sản phẩm',
-                onTap: () {
+                onTap: (page,_) {
                   setState(() {
-                    page.jumpToPage(1);
+                    sideMenu.changePage(1);
                   });
                 },
                 icon: const Icon(CupertinoIcons.square_list_fill),
@@ -118,9 +119,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               SideMenuItem(
                 priority: 2,
                 title: 'Khuyến mãi',
-                onTap: () {
+                onTap: (page,_) {
                   setState(() {
-                    page.jumpToPage(2);
+                    sideMenu.changePage(2);
                   });
                 },
                 icon: const Icon(CupertinoIcons.tickets_fill),
@@ -128,9 +129,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               SideMenuItem(
                 priority: 3,
                 title: 'Địa chỉ',
-                onTap: () {
+                onTap: (page,_) {
                   setState(() {
-                    page.jumpToPage(3);
+                    sideMenu.changePage(3);
                   });
                 },
                 icon: const Icon(CupertinoIcons.location_solid),
@@ -138,9 +139,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               SideMenuItem(
                 priority: 4,
                 title: 'Yêu cầu',
-                onTap: () {
+                onTap: (page,_) {
                   setState(() {
-                    page.jumpToPage(4);
+                    sideMenu.changePage(4);
                   });
                 },
                 icon: const Icon(CupertinoIcons.question_circle_fill),
@@ -148,9 +149,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               SideMenuItem(
                 priority: 5,
                 title: 'Quản lý tài khoản',
-                onTap: () {
+                onTap: (page,_) {
                   setState(() {
-                    page.jumpToPage(5);
+                    sideMenu.changePage(5);
                   });
                 },
                 icon: const Icon(CupertinoIcons.rectangle_stack_person_crop_fill),
