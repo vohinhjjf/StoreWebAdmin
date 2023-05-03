@@ -27,7 +27,7 @@ class _ProductDetailsBoxState extends State<ProductDetailsBox> {
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text('Something went wrong'),
             );
           }
@@ -106,7 +106,7 @@ class _ProductDetailsBoxState extends State<ProductDetailsBox> {
                               const SizedBox(
                                 height: 5,
                               ),
-                              Divider(
+                              const Divider(
                                 thickness: 4,
                               ),
                               const SizedBox(
@@ -155,7 +155,7 @@ class _ProductDetailsBoxState extends State<ProductDetailsBox> {
                             ? Chip(
                           backgroundColor: Colors.green,
                           label: Row(
-                            children: [
+                            children: const [
                               Icon(
                                 Icons.check,
                                 color: Colors.white,
@@ -173,7 +173,7 @@ class _ProductDetailsBoxState extends State<ProductDetailsBox> {
                             : Chip(
                           backgroundColor: Colors.red,
                           label: Row(
-                            children: [
+                            children: const [
                               Icon(
                                 Icons.remove_circle,
                                 color: Colors.white,
@@ -200,7 +200,7 @@ class _ProductDetailsBoxState extends State<ProductDetailsBox> {
                             FutureProgressDialog(_services.updateDetailProduct(
                                 id: snapshot.data!.id,
                                 detail: _detail.text
-                              ), message: Text('Loading...')
+                              ), message: const Text('Loading...')
                             ),
                         );
                         Navigator.of(context, rootNavigator: true).pop();

@@ -19,7 +19,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: const [
             Text(
               'Danh mục',
               style: TextStyle(
