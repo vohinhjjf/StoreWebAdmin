@@ -12,6 +12,7 @@ class FirebaseServices {
   CollectionReference voucher = FirebaseFirestore.instance.collection('Voucher');
   CollectionReference location = FirebaseFirestore.instance.collection('Location');
   CollectionReference request = FirebaseFirestore.instance.collection('Request Support');
+  CollectionReference blogs = FirebaseFirestore.instance.collection('Blogs');
   FirebaseStorage storage = FirebaseStorage.instance;
 
   Future<DocumentSnapshot> getAdminCredentials(id) {
@@ -53,6 +54,20 @@ class FirebaseServices {
     product.doc(id).update({'details': detail});
   }
   //-------------------Update Product-------------------------
+
+  //-------------------Update Blog-------------------------
+  updateBlogStatus({id, status}) async {
+    blogs.doc(id).update({'active': status ? false : true});
+  }
+
+  updateHotBlog({id, status}) async {
+    blogs.doc(id).update({'hot': status ? false : true});
+  }
+
+  updateContentBlog({id, required String name, required String short, required String content}) async {
+    blogs.doc(id).update({'name' : name, 'short' : short,'content': content});
+  }
+  //-------------------Update Blog-------------------------
 
   //-------------------Voucher-------------------------
     Future addVoucher(String percentage, String discount, String name, String time, bool freeship) async {
