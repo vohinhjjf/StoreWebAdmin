@@ -99,11 +99,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               items: [
                 SideMenuItem(
                   priority: 0,
-                  title: 'Quảng cáo',
+                  title: 'Blogs',
                   onTap: (page, _) {
                     sideMenu.changePage(0);
                   },
-                  icon: const Icon(CupertinoIcons.photo),
+                  icon: const Icon(CupertinoIcons.news),
                 ),
                 SideMenuItem(
                   priority: 1,
@@ -168,6 +168,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   },
                   icon: const Icon(
                       CupertinoIcons.rectangle_stack_person_crop_fill),
+                ),
+                SideMenuItem(
+                  priority: 6,
+                  title: 'Quảng cáo',
+                  onTap: (page, _) {
+                    sideMenu.changePage(6);
+                  },
+                  icon: const Icon(CupertinoIcons.photo),
                 ),
               ],
               alwaysShowFooter: true,
