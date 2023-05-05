@@ -1,5 +1,4 @@
 import 'package:eshop_admin/screens/admin_users.dart';
-import 'package:eshop_admin/screens/blog_editor.dart';
 import 'package:eshop_admin/screens/blog_screen.dart';
 import 'package:eshop_admin/screens/login_screen.dart';
 import 'package:eshop_admin/screens/request_screen.dart';
@@ -13,6 +12,8 @@ import 'package:eshop_admin/screens/product_screen.dart';
 
 class DashBoardScreen extends StatefulWidget {
   static const String id = 'dashboard-screen';
+
+  const DashBoardScreen({super.key});
   @override
   _DashBoardScreenState createState() => _DashBoardScreenState();
 }
@@ -53,7 +54,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             ),
           ],
         ),
-        title: Container(
+        title: SizedBox(
           width: MediaQuery.of(context).size.width / 2,
           child: _buildSearch(),
         ),
@@ -275,7 +276,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         CircleAvatar(
           radius: 20,
           backgroundColor: color,
-          backgroundImage: image as ImageProvider,
+          backgroundImage: image,
         ),
         const SizedBox(
           width: 5,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class NotificationScreen extends StatelessWidget {
   static const String id = 'notification-screen';
+
+  const NotificationScreen({super.key});
   @override
   Widget build(BuildContext context) {
 
@@ -9,7 +11,7 @@ class NotificationScreen extends StatelessWidget {
       child: Container(
         alignment: Alignment.topLeft,
         padding: const EdgeInsets.all(10),
-        child: Text(
+        child: const Text(
           'Notification Manage Screen',
           style: TextStyle(
             fontWeight: FontWeight.w700,
