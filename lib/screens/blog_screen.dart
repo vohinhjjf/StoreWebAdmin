@@ -412,11 +412,11 @@ class _BlogScreen extends State<BlogScrren> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: _url == ""
+                        child: downloadUrl == ""
                             ? const Image(
                                 image: AssetImage("images/add-image.png"),
                               )
-                            : _imageWidget = Image.network(downloadUrl),
+                            : Image.network(downloadUrl),
                       ),
                       const SizedBox(
                         height: 15,
@@ -425,12 +425,7 @@ class _BlogScreen extends State<BlogScrren> {
                         height: 45,
                         onPressed: () {
                           //uploadStorage();
-                          uploadStorage();
-                          setState(() async {
-                            downloadUrl = await _services.storage
-                                .ref(_url)
-                                .getDownloadURL();
-                          });
+                          uploadToStorage();
                         },
                         color: Colors.black54,
                         child: const Text(
@@ -538,7 +533,7 @@ class _BlogScreen extends State<BlogScrren> {
                                     ],
                                   );
                                 });
-                          } else if (_url == "") {
+                          } else if (downloadUrl == "") {
                             showDialog(
                                 context: context,
                                 builder: (context) {
@@ -590,6 +585,8 @@ class _BlogScreen extends State<BlogScrren> {
                                 'Author': 'Admin',
                                 'hot': false,
                                 'content': contentText.text,
+                                'like': 0,
+                                'comments': <String>[],
                               });
                             }
                             setState(() {
@@ -631,36 +628,56 @@ class _BlogScreen extends State<BlogScrren> {
   // }
 
   //----------------upload image form device---------------------
-  void uploadImage({required Function(File file) onSelected}) {
-    FileUploadInputElement uploadInput = FileUploadInputElement()
-      ..accept = 'image/*'; //Chỉ tải ảnh lên
-    uploadInput.click();
-    uploadInput.onChange.listen((event) {
-      final file = uploadInput.files!.first;
-      final reader = FileReader();
-      reader.readAsDataUrl(file);
-      reader.onLoadEnd.listen((event) {
-        onSelected(file);
-      });
-    });
-  }
+  // void uploadImage({required Function(File file) onSelected}) {
+  //   FileUploadInputElement uploadInput = FileUploadInputElement()
+  //     ..accept = 'image/*'; //Chỉ tải ảnh lên
+  //   uploadInput.click();
+  //   uploadInput.onChange.listen((event) {
+  //     final file = uploadInput.files!.first;
+  //     final reader = FileReader();
+  //     reader.readAsDataUrl(file);
+  //     reader.onLoadEnd.listen((event) {
+  //       onSelected(file);
+  //     });
+  //   });
+  // }
   //----------------upload image form device---------------------
 
   //----------upload selected image to Firebase storage--------------
-  void uploadStorage() {
-    final dateTime = DateTime.now();
-    final path = 'blog/$dateTime';
-    uploadImage(onSelected: (file) {
-      setState(() {
-        _fileNameTextController.text = file.name;
-        _url = path;
-      });
+  // void uploadStorage() {
+  //   final dateTime = DateTime.now();
+  //   final path = 'blog/$dateTime';
+  //   uploadImage(onSelected: (file) {
+  //     setState(() {
+  //       _fileNameTextController.text = file.name;
+  //       _url = path;
+  //     });
 
-      FirebaseStorage.instance
-          .refFromURL('gs://storeapp-b5b72.appspot.com')
-          .child(path)
-          .putBlob(file);
+  //     FirebaseStorage.instance
+  //         .refFromURL('gs://storeapp-b5b72.appspot.com')
+  //         .child(path)
+  //         .putBlob(file);
+  //   });
+  // }
+  //----------upload selected image to Firebase storage--------------
+
+  uploadToStorage() {
+    FileUploadInputElement input = FileUploadInputElement()..accept = 'image/*';
+    FirebaseStorage fs = FirebaseStorage.instance;
+    input.click();
+    input.onChange.listen((event) {
+      final file = input.files!.first;
+      final reader = FileReader();
+      final dateTime = DateTime.now();
+      final path = 'blog/$dateTime';
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) async {
+        var snapshot = await fs.ref().child(path).putBlob(file);
+        String url = await snapshot.ref.getDownloadURL();
+        setState(() {
+          downloadUrl = url;
+        });
+      });
     });
   }
-  //----------upload selected image to Firebase storage--------------
 }

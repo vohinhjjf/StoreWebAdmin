@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 class BannerScreen extends StatefulWidget {
   static const String id = 'banner-screen';
+
+  const BannerScreen({super.key});
   @override
   _BannerScreenState createState() => _BannerScreenState();
 }
@@ -62,9 +64,9 @@ class _BannerScreenState extends State<BannerScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 25,),
+            const SizedBox(height: 25,),
             BannerUploadWidget(_visible),
-            SizedBox(height: 25,),
+            const SizedBox(height: 25,),
             //Banners
             Card(
               shadowColor: Colors.grey,

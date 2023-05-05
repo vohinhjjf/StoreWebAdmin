@@ -2,7 +2,6 @@ import 'package:eshop_admin/screens/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:eshop_admin/screens/manage_banners.dart';
 import 'package:eshop_admin/services/firebase_services.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -55,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 _services.showMyDialog(
                     context: context,
                     title: 'Đăng nhập',
-                    message: '${e.toString()}'
+                    message: e.toString()
                 );
               }
 
@@ -108,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     end: Alignment(0.0, 0.0)),
               ),
               child: Center(
-                child: Container(
+                child: SizedBox(
                   width: 300,
                   height: 450,
                   child: Card(
@@ -121,75 +120,73 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Container(
-                              child: Column(
-                                children: [
-                                  Image.asset('images/logo.png', width: 150, height: 150),
-                                  const Text("eShop Admin",
-                                    style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 40,
-                                      fontFamily: "Lobster",
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                            Column(
+                              children: [
+                                Image.asset('images/logo.png', width: 150, height: 150),
+                                const Text("eShop Admin",
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 40,
+                                    fontFamily: "Lobster",
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  TextFormField(
-                                    controller: _usernameTextController,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Vui lòng nhập tên đăng nhập';
-                                      }
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  controller: _usernameTextController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Vui lòng nhập tên đăng nhập';
+                                    }
 
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                      labelText: 'Tên đăng nhập',
-                                      prefixIcon: const Icon(Icons.person),
-                                      contentPadding:
-                                      const EdgeInsets.only(left: 20, right: 20),
-                                      border: const OutlineInputBorder(),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              width: 2)),
-                                    ),
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    labelText: 'Tên đăng nhập',
+                                    prefixIcon: const Icon(Icons.person),
+                                    contentPadding:
+                                    const EdgeInsets.only(left: 20, right: 20),
+                                    border: const OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .primaryColor,
+                                            width: 2)),
                                   ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  TextFormField(
-                                    controller: _passwordTextController,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Vui lòng nhập mật khẩu';
-                                      }
-                                      if (value.length < 6) {
-                                        return 'Mật khẩu tối thiểu 6 ký tự';
-                                      }
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  controller: _passwordTextController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Vui lòng nhập mật khẩu';
+                                    }
+                                    if (value.length < 6) {
+                                      return 'Mật khẩu tối thiểu 6 ký tự';
+                                    }
 
-                                      return null;
-                                    },
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                      labelText: 'Mật khẩu',
-                                      prefixIcon: const Icon(Icons.vpn_key_sharp),
-                                      hintText: 'Mật khẩu tối thiểu 6 ký tự',
-                                      contentPadding:
-                                      const EdgeInsets.only(left: 20, right: 20),
-                                      border: const OutlineInputBorder(),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              width: 2)),
-                                    ),
+                                    return null;
+                                  },
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    labelText: 'Mật khẩu',
+                                    prefixIcon: const Icon(Icons.vpn_key_sharp),
+                                    hintText: 'Mật khẩu tối thiểu 6 ký tự',
+                                    contentPadding:
+                                    const EdgeInsets.only(left: 20, right: 20),
+                                    border: const OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .primaryColor,
+                                            width: 2)),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                             Container(
                               height: 40,
