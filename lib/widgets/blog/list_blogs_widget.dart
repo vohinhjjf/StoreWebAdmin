@@ -1,6 +1,5 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eshop_admin/widgets/product/product_details_box.dart';
 import 'package:flutter/material.dart';
 import 'package:eshop_admin/services/firebase_services.dart';
 

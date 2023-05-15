@@ -35,6 +35,7 @@ class _BlogScreen extends State<BlogScrren> {
   late Image _imageWidget;
   String formattedDate = '';
   String downloadUrl = '';
+  final dateTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -574,7 +575,8 @@ class _BlogScreen extends State<BlogScrren> {
                                 });
                           } else {
                             if (downloadUrl != null) {
-                              _services.blogs.add({
+                              _services.blogs.doc('$dateTime').set({
+                                'id': '$dateTime',
                                 'active': true,
                                 'name': nameText.text,
                                 'image': downloadUrl,
@@ -585,8 +587,9 @@ class _BlogScreen extends State<BlogScrren> {
                                 'Author': 'Admin',
                                 'hot': false,
                                 'content': contentText.text,
-                                'like': 0,
+                                'likes': 0,
                                 'comments': <String>[],
+                                'views': 0,
                               });
                             }
                             setState(() {
@@ -668,7 +671,6 @@ class _BlogScreen extends State<BlogScrren> {
     input.onChange.listen((event) {
       final file = input.files!.first;
       final reader = FileReader();
-      final dateTime = DateTime.now();
       final path = 'blog/$dateTime';
       reader.readAsDataUrl(file);
       reader.onLoadEnd.listen((event) async {
