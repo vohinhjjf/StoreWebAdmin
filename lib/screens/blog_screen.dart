@@ -13,7 +13,7 @@ import 'package:path/path.dart' as Path;
 import '../widgets/blog/list_blogs_widget.dart';
 
 class BlogScrren extends StatefulWidget {
-  static const String id = 'product-screen';
+  static const String id = 'blog-screen';
   @override
   _BlogScreen createState() => _BlogScreen();
 }

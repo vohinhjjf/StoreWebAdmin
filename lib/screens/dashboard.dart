@@ -10,6 +10,8 @@ import 'package:eshop_admin/screens/voucher_screen.dart';
 import 'package:eshop_admin/screens/manage_banners.dart';
 import 'package:eshop_admin/screens/product_screen.dart';
 
+import 'chat_screen.dart';
+
 class DashBoardScreen extends StatefulWidget {
   static const String id = 'dashboard-screen';
 
@@ -191,6 +193,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   },
                   icon: const Icon(CupertinoIcons.photo),
                 ),
+                SideMenuItem(
+                  priority: 7,
+                  title: 'Chat',
+                  onTap: (page, _) {
+                    setState(() {
+                      sideMenu.changePage(page);
+                    });
+                  },
+                  icon: const Icon(CupertinoIcons.chat_bubble_2_fill),
+                ),
               ],
               alwaysShowFooter: true,
               footer: Container(
@@ -222,13 +234,15 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             child: PageView(
               controller: page,
               children: [
+
                 BlogScrren(),
                 ProductScreen(),
                 VoucherScreen(),
                 StoreScreen(),
                 RequestScreen(),
                 AdminUsers(),
-                BannerScreen()
+                const BannerScreen(),
+                ChatWidget(),
               ],
             ),
           ),

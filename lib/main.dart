@@ -13,6 +13,8 @@ import 'package:eshop_admin/screens/product_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'screens/chat_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -54,6 +56,7 @@ class MyApp extends StatelessWidget {
         ProductScreen.id:(context)=>ProductScreen(),
         VoucherScreen.id:(context)=>VoucherScreen(),
         RequestScreen.id:(context)=>RequestScreen(),
+        ChatWidget.id:(context)=>ChatWidget(),
       },
     );
   }
