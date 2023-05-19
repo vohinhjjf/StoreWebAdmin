@@ -7,11 +7,15 @@ class FirebaseServices {
   CollectionReference users = FirebaseFirestore.instance.collection('Users');
   CollectionReference admin = FirebaseFirestore.instance.collection('Admin');
   CollectionReference banners = FirebaseFirestore.instance.collection('Banner');
-  CollectionReference product = FirebaseFirestore.instance.collection('Products');
+  CollectionReference product =
+      FirebaseFirestore.instance.collection('Products');
   CollectionReference cart = FirebaseFirestore.instance.collection('Cart');
-  CollectionReference voucher = FirebaseFirestore.instance.collection('Voucher');
-  CollectionReference location = FirebaseFirestore.instance.collection('Location');
-  CollectionReference request = FirebaseFirestore.instance.collection('Request Support');
+  CollectionReference voucher =
+      FirebaseFirestore.instance.collection('Voucher');
+  CollectionReference location =
+      FirebaseFirestore.instance.collection('Location');
+  CollectionReference request =
+      FirebaseFirestore.instance.collection('Request Support');
   CollectionReference blogs = FirebaseFirestore.instance.collection('Blogs');
   FirebaseStorage storage = FirebaseStorage.instance;
 
@@ -25,7 +29,7 @@ class FirebaseServices {
     String downloadUrl = await storage.ref(url).getDownloadURL();
     if (downloadUrl != null) {
       firestore.collection('Banner').add({
-        'image' : downloadUrl,
+        'image': downloadUrl,
       });
     }
     return downloadUrl;
@@ -35,8 +39,6 @@ class FirebaseServices {
     firestore.collection('Banner').doc(id).delete();
   }
   //-------------------Upload and delete Banner to DB-------------------
-
-
 
   //-------------------Update Product-------------------------
   updateProductStatus({id, status}) async {
@@ -50,6 +52,7 @@ class FirebaseServices {
   updateFreeshipProduct({id, status}) async {
     product.doc(id).update({'freeship': status ? false : true});
   }
+
   updateDetailProduct({id, detail}) async {
     product.doc(id).update({'details': detail});
   }
@@ -64,39 +67,46 @@ class FirebaseServices {
     blogs.doc(id).update({'hot': status ? false : true});
   }
 
-  updateContentBlog({id, required String name, required String short, required String content}) async {
-    blogs.doc(id).update({'name' : name, 'short' : short,'content': content});
+  updateContentBlog(
+      {id,
+      required String name,
+      required String short,
+      required String content}) async {
+    blogs.doc(id).update({'name': name, 'short': short, 'content': content});
   }
   //-------------------Update Blog-------------------------
 
   //-------------------Voucher-------------------------
-    Future addVoucher(String percentage, String discount, String name, String time, bool freeship) async {
-      return voucher.add({
-        'active':  true,
-        'campaignId':'',
-        'discountPercentage':double.parse(percentage),
-        'freeship': freeship,
-        'maxDiscount':double.parse(discount),
-        'name': name,
-        'time': int.parse(time)
-      });
-    }
+  Future addVoucher(String percentage, String discount, String name,
+      String time, bool freeship, String point) async {
+    return voucher.add({
+      'active': true,
+      'campaignId': '',
+      'discountPercentage': double.parse(percentage),
+      'freeship': freeship,
+      'maxDiscount': double.parse(discount),
+      'name': name,
+      'time': int.parse(time),
+      'exchangedPoint': int.parse(point),
+    });
+  }
 
-    activeVoucher({id, status}) async {
-      voucher.doc(id).update({'active': status ? false : true});
-    }
+  activeVoucher({id, status}) async {
+    voucher.doc(id).update({'active': status ? false : true});
+  }
 
-    freeshipVoucher({id, status}) async {
-      voucher.doc(id).update({'freeship': status ? false : true});
-    }
-    //-------------------Voucher-------------------------
+  freeshipVoucher({id, status}) async {
+    voucher.doc(id).update({'freeship': status ? false : true});
+  }
+  //-------------------Voucher-------------------------
 
   //-----------------Store -------------------
-  addStore(String address, String longitude, String latitude, String name) async {
+  addStore(
+      String address, String longitude, String latitude, String name) async {
     location.add({
-      'active':  true,
-      'address':address,
-      'longitude':double.parse(longitude),
+      'active': true,
+      'address': address,
+      'longitude': double.parse(longitude),
       'latitude': double.parse(latitude),
       'name': name,
     });
@@ -106,8 +116,6 @@ class FirebaseServices {
     location.doc(id).update({'active': status ? false : true});
   }
   //-----------------Store -------------------
-
-
 
   //-------------------------Show dialog------------------------------
   Future<void> showMyDialog({title, message, context}) async {
@@ -137,5 +145,4 @@ class FirebaseServices {
     );
   }
 //-------------------------Show dialog------------------------------
-
 }
