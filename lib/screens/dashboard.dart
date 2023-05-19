@@ -209,10 +209,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             child: PageView(
               controller: page,
               children: [
+                VoucherScreen(),
                 BlogScrren(),
                 ProductScreen(),
-                BannerScreen(),
-                VoucherScreen(),
+                const BannerScreen(),
                 StoreScreen(),
                 RequestScreen(),
                 AdminUsers(),
