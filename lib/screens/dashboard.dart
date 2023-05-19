@@ -10,6 +10,8 @@ import 'package:eshop_admin/screens/voucher_screen.dart';
 import 'package:eshop_admin/screens/manage_banners.dart';
 import 'package:eshop_admin/screens/product_screen.dart';
 
+import 'chat_screen.dart';
+
 class DashBoardScreen extends StatefulWidget {
   static const String id = 'dashboard-screen';
 
@@ -21,6 +23,15 @@ class DashBoardScreen extends StatefulWidget {
 class _DashBoardScreenState extends State<DashBoardScreen> {
   PageController page = PageController();
   SideMenuController sideMenu = SideMenuController();
+
+  @override
+  void initState() {
+    sideMenu.addListener((p0) {
+      page.jumpToPage(p0);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +113,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   priority: 0,
                   title: 'Blogs',
                   onTap: (page, _) {
-                    sideMenu.changePage(0);
+                    setState(() {
+                      sideMenu.changePage(page);
+                    });
                   },
                   icon: const Icon(CupertinoIcons.news),
                 ),
@@ -111,7 +124,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   title: 'Danh sách sản phẩm',
                   onTap: (page, _) {
                     setState(() {
-                      sideMenu.changePage(1);
+                      sideMenu.changePage(page);
                     });
                   },
                   icon: const Icon(CupertinoIcons.square_list_fill),
@@ -134,7 +147,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   title: 'Khuyến mãi',
                   onTap: (page, _) {
                     setState(() {
-                      sideMenu.changePage(2);
+                      sideMenu.changePage(page);
                     });
                   },
                   icon: const Icon(CupertinoIcons.tickets_fill),
@@ -144,7 +157,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   title: 'Địa chỉ',
                   onTap: (page, _) {
                     setState(() {
-                      sideMenu.changePage(3);
+                      sideMenu.changePage(page);
                     });
                   },
                   icon: const Icon(CupertinoIcons.location_solid),
@@ -154,7 +167,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   title: 'Yêu cầu',
                   onTap: (page, _) {
                     setState(() {
-                      sideMenu.changePage(4);
+                      sideMenu.changePage(page);
                     });
                   },
                   icon: const Icon(CupertinoIcons.question_circle_fill),
@@ -164,7 +177,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   title: 'Quản lý tài khoản',
                   onTap: (page, _) {
                     setState(() {
-                      sideMenu.changePage(5);
+                      sideMenu.changePage(page);
                     });
                   },
                   icon: const Icon(
@@ -174,9 +187,21 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   priority: 6,
                   title: 'Quảng cáo',
                   onTap: (page, _) {
-                    sideMenu.changePage(6);
+                    setState(() {
+                      sideMenu.changePage(page);
+                    });
                   },
                   icon: const Icon(CupertinoIcons.photo),
+                ),
+                SideMenuItem(
+                  priority: 7,
+                  title: 'Chat',
+                  onTap: (page, _) {
+                    setState(() {
+                      sideMenu.changePage(page);
+                    });
+                  },
+                  icon: const Icon(CupertinoIcons.chat_bubble_2_fill),
                 ),
               ],
               alwaysShowFooter: true,
@@ -209,13 +234,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             child: PageView(
               controller: page,
               children: [
-                VoucherScreen(),
                 BlogScrren(),
                 ProductScreen(),
-                const BannerScreen(),
+                VoucherScreen(),
                 StoreScreen(),
                 RequestScreen(),
                 AdminUsers(),
+                const BannerScreen(),
+                ChatWidget(),
               ],
             ),
           ),

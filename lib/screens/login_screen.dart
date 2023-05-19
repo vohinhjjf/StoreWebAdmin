@@ -1,5 +1,5 @@
 import 'package:eshop_admin/screens/dashboard.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_web/firebase_auth_web.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:eshop_admin/services/firebase_services.dart';
@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
             if (value['password'] == password) {
               //nếu đúng sẽ cho phép đăng nhập
               try{
-                UserCredential userCredential = await FirebaseAuth.instance.signInAnonymously();
+                var userCredential = await FirebaseAuthWeb.instance.signInAnonymously();
                 if(userCredential!=null){
                   //nếu đăng nhập thành công, sẽ điều hướng đến màn hình chính
                   //progressDialog.dismiss();
