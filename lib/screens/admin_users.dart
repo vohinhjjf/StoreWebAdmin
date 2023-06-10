@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 
 class AdminUsers extends StatefulWidget {
   static const String id = 'admin-user';
+
+  const AdminUsers({super.key});
   @override
-  _AdminUsersState createState() => _AdminUsersState();
+  State<AdminUsers> createState() => _AdminUsersState();
 }
 
 class _AdminUsersState extends State<AdminUsers> {
@@ -69,7 +71,7 @@ class _AdminUsersState extends State<AdminUsers> {
   }
 
   Widget UserWidget(){
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: StreamBuilder(
         stream: _services.users.snapshots(),
