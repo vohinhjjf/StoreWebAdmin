@@ -4,17 +4,13 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import '../data/dummy.dart';
 
 class BlogEditor extends StatefulWidget {
-  BlogEditor({
-    Key? key, required this.editorController
-  }) : super(key: key);
-  TextEditingController? editorController = TextEditingController();
-
+  const BlogEditor({Key? key, required this.editorController}) : super(key: key);
+  final TextEditingController? editorController;
   @override
   State<BlogEditor> createState() => _BlogEditorState();
 }
 
 class _BlogEditorState extends State<BlogEditor> {
-  
   final ScrollController _controller = ScrollController();
 
   void _scrollToEnd() {
@@ -59,7 +55,7 @@ class _BlogEditorState extends State<BlogEditor> {
             padding: const EdgeInsets.all(16.0),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
-               color: Colors.white70,
+              color: Colors.white70,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +75,6 @@ class _BlogEditorState extends State<BlogEditor> {
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16.0 * 1.5,
                           vertical: 16.0,
-                          
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
