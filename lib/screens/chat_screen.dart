@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:html';
+import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eshop_admin/Model/chat_message_model.dart';
+import 'package:eshop_admin/widgets/chat/loading_view_widget.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -29,6 +33,7 @@ class _ChatWidgetState extends State<ChatWidget>
   List<QueryDocumentSnapshot> listMessage = [];
   String groupChatId = "";
   String currentUserId = 'Admin';
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -395,7 +400,9 @@ class _ChatWidgetState extends State<ChatWidget>
               margin: const EdgeInsets.symmetric(horizontal: 1),
               child: IconButton(
                 icon: const Icon(Icons.image),
-                onPressed: () {},
+                onPressed: () {
+                  uploadToStorage(data[temp]['id']);
+                },
                 color: Colors.blue,
               ),
             ),
@@ -713,6 +720,12 @@ class _ChatWidgetState extends State<ChatWidget>
     }
   }
 
+  Widget buildLoading() {
+    return Positioned(
+      child: isLoading ? const LoadingView() : const SizedBox.shrink(),
+    );
+  }
+
   bool isLastMessageLeft(int index) {
     if ((index > 0 &&
             listMessage[index - 1].get(FirestoreConstants.idFrom) ==
@@ -754,4 +767,52 @@ class _ChatWidgetState extends State<ChatWidget>
       groupChatId = '$peerId-$currentUserId';
     }
   }
+
+  uploadToStorage(String peerId) {
+    String downloadUrl = '';
+    String dateTime = DateTime.now().millisecondsSinceEpoch.toString();
+    FileUploadInputElement input = FileUploadInputElement()..accept = 'image/*';
+    FirebaseStorage fs = FirebaseStorage.instance;
+    input.click();
+    input.onChange.listen((event) {
+      final file = input.files!.first;
+      final reader = FileReader();
+      final path = 'Admin/$dateTime';
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) async {
+        var snapshot = await fs.ref().child(path).putBlob(file);
+        String url = await snapshot.ref.getDownloadURL();
+        setState(() {
+          downloadUrl = url;
+        });
+        try {
+          setState(() {
+            onSendMessage(downloadUrl, TypeMessage.image, peerId);
+          });
+        } on FirebaseException {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      });
+    });
+  }
+
+  // Future uploadFile() async {
+  //   String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+  //   UploadTask uploadTask = _services.uploadFile(imageFile!, fileName);
+  //   try {
+  //     TaskSnapshot snapshot = await uploadTask;
+  //     imageUrl = await snapshot.ref.getDownloadURL();
+  //     setState(() {
+  //       isLoading = false;
+  //       onSendMessage(imageUrl, TypeMessage.image);
+  //     });
+  //   } on FirebaseException catch (e) {
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //     Fluttertoast.showToast(msg: e.message ?? e.toString());
+  //   }
+  // }
 }
