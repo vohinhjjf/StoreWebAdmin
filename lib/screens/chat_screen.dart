@@ -34,6 +34,7 @@ class _ChatWidgetState extends State<ChatWidget>
   String groupChatId = "";
   String currentUserId = 'Admin';
   bool isLoading = false;
+  bool isShowSticker = false;
 
   @override
   void initState() {
@@ -300,6 +301,9 @@ class _ChatWidgetState extends State<ChatWidget>
                               ),
                             ),
                     ),
+                    isShowSticker
+                        ? buildSticker(data[temp]['id'])
+                        : const SizedBox.shrink(),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: buildInput(context, data),
@@ -413,7 +417,11 @@ class _ChatWidgetState extends State<ChatWidget>
               margin: const EdgeInsets.symmetric(horizontal: 1),
               child: IconButton(
                 icon: const Icon(Icons.face),
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    isShowSticker = !isShowSticker;
+                  });
+                },
                 color: Colors.blue,
               ),
             ),
@@ -718,6 +726,126 @@ class _ChatWidgetState extends State<ChatWidget>
     } else {
       return const SizedBox.shrink();
     }
+  }
+
+  Widget buildSticker(String peerId) {
+    return Expanded(
+      child: Container(
+        decoration: const BoxDecoration(color: Colors.white),
+        padding: const EdgeInsets.all(5),
+        height: 180,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                TextButton(
+                  onPressed: () =>
+                      onSendMessage('mimi1', TypeMessage.sticker, peerId),
+                  child: Image.asset(
+                    'images/mimi1.gif',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () =>
+                      onSendMessage('mimi2', TypeMessage.sticker, peerId),
+                  child: Image.asset(
+                    'images/mimi2.gif',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () =>
+                      onSendMessage('mimi3', TypeMessage.sticker, peerId),
+                  child: Image.asset(
+                    'images/mimi3.gif',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  ),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                TextButton(
+                  onPressed: () =>
+                      onSendMessage('mimi4', TypeMessage.sticker, peerId),
+                  child: Image.asset(
+                    'images/mimi4.gif',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () =>
+                      onSendMessage('mimi5', TypeMessage.sticker, peerId),
+                  child: Image.asset(
+                    'images/mimi5.gif',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () =>
+                      onSendMessage('mimi6', TypeMessage.sticker, peerId),
+                  child: Image.asset(
+                    'images/mimi6.gif',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  ),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                TextButton(
+                  onPressed: () =>
+                      onSendMessage('mimi7', TypeMessage.sticker, peerId),
+                  child: Image.asset(
+                    'images/mimi7.gif',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () =>
+                      onSendMessage('mimi8', TypeMessage.sticker, peerId),
+                  child: Image.asset(
+                    'images/mimi8.gif',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () =>
+                      onSendMessage('mimi9', TypeMessage.sticker, peerId),
+                  child: Image.asset(
+                    'images/mimi9.gif',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Widget buildLoading() {
