@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eshop_admin/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -206,5 +208,11 @@ class FirebaseServices {
     return qs;
   }
 
-
+  UploadTask uploadFile(File image, String fileName) {
+    FirebaseStorage? firebaseStorage;
+    Reference reference = firebaseStorage!.ref().child(fileName);
+    UploadTask uploadTask = reference.putFile(image);
+    return uploadTask;
+  }
+  
 }
