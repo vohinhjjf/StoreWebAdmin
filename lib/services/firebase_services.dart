@@ -145,4 +145,10 @@ class FirebaseServices {
     );
   }
 //-------------------------Show dialog------------------------------
+
+//-------------------------Puschase------------------------------
+  activePuschase({uid, id, status}) async {
+    users.doc(uid).collection("purchase history").doc(id).update({'orderStatus': status});
+  }
+//-------------------------Puschase------------------------------
 }
