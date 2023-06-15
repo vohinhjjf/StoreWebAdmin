@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:html';
-import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eshop_admin/Model/chat_message_model.dart';
 import 'package:eshop_admin/widgets/chat/loading_view_widget.dart';
@@ -374,6 +373,7 @@ class _ChatWidgetState extends State<ChatWidget>
                               const TextStyle(color: Colors.blue, fontSize: 17),
                         ),
                       ),
+                      buildLastMessage('$currentUserId-${document.id}'),
                     ],
                   ),
                 ),
@@ -845,6 +845,90 @@ class _ChatWidgetState extends State<ChatWidget>
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildLastMessage(String groupChatId) {
+    return Container(
+      child: groupChatId.isNotEmpty
+          ? StreamBuilder<QuerySnapshot>(
+              stream: _services.getChatStream(groupChatId, 100),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  listMessage = snapshot.data!.docs;
+                  if (listMessage.isNotEmpty) {
+                    if (snapshot.data?.docs[0].get("idFrom") == 'Admin') {
+                      return Row(
+                        children: [
+                          Text(
+                              _services
+                                          .getLastMessage(
+                                              snapshot.data?.docs[0])
+                                          .length >=
+                                      10
+                                  ? "Ban: ${_services.getLastMessage(snapshot.data?.docs[0]).substring(1, 10)}..."
+                                  : "Ban: ${_services.getLastMessage(snapshot.data?.docs[0])}",
+                              style: const TextStyle(color: Colors.grey)),
+                          const Spacer(),
+                          Text(
+                            DateFormat('dd MMM kk:mm').format(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                int.parse(
+                                  _services.getLastMessageTime(
+                                      snapshot.data?.docs[0]),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Row(
+                        children: [
+                          Text(
+                            _services
+                                        .getLastMessage(snapshot.data?.docs[0])
+                                        .length >=
+                                    15
+                                ? "${_services.getLastMessage(snapshot.data?.docs[0]).substring(1, 15)}..."
+                                : _services
+                                    .getLastMessage(snapshot.data?.docs[0]),
+                            style: const TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            DateFormat('dd MMM kk:mm').format(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                int.parse(
+                                  _services.getLastMessageTime(
+                                      snapshot.data?.docs[0]),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  } else {
+                    return const SizedBox();
+                  }
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.blue,
+                    ),
+                  );
+                }
+              },
+            )
+          : const Center(
+              child: CircularProgressIndicator(
+                color: Colors.blue,
+              ),
+            ),
     );
   }
 
