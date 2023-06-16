@@ -2,6 +2,7 @@ import 'package:eshop_admin/screens/admin_users.dart';
 import 'package:eshop_admin/screens/blog_screen.dart';
 import 'package:eshop_admin/screens/login_screen.dart';
 import 'package:eshop_admin/screens/request_screen.dart';
+import 'package:eshop_admin/screens/statistic_screen.dart';
 import 'package:eshop_admin/screens/store_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -203,6 +204,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   },
                   icon: const Icon(CupertinoIcons.chat_bubble_2_fill),
                 ),
+                SideMenuItem(
+                  priority: 8,
+                  title: 'Thống kê',
+                  onTap: (page, _) {
+                    setState(() {
+                      sideMenu.changePage(page);
+                    });
+                  },
+                  icon: const Icon(Icons.insert_chart_rounded),
+                ),
               ],
               alwaysShowFooter: true,
               footer: Container(
@@ -242,6 +253,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 AdminUsers(),
                 const BannerScreen(),
                 ChatWidget(),
+                StatisticScreen()
               ],
             ),
           ),

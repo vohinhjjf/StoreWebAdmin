@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eshop_admin/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../Model/chat_message_model.dart';
 
@@ -153,6 +154,12 @@ class FirebaseServices {
   }
 //-------------------------Show dialog------------------------------
 
+//-------------------------Puschase------------------------------
+  activePuschase({uid, id, status}) async {
+    users.doc(uid).collection("purchase history").doc(id).update({'orderStatus': status});
+  }
+//-------------------------Puschase------------------------------
+
 //--------------------------Message---------------------------------
   void sendMessage(String content, int type, String groupChatId,
       String currentUserId, String peerId) {
@@ -175,7 +182,7 @@ class FirebaseServices {
       );
     });
   }
-
+  
   String getLastMessage(DocumentSnapshot? document) {
     MessageChat messageChat = MessageChat.fromDocument(document!);
     return messageChat.content;
@@ -214,5 +221,42 @@ class FirebaseServices {
     UploadTask uploadTask = reference.putFile(image);
     return uploadTask;
   }
-  
+
+//--------------------------Message---------------------------------*/
+
+//--------------------------Statistic---------------------------------
+  Future<void> queryRevenueByYear() async {
+    var revenue_1 = 0,revenue_2 = 0,revenue_3 = 0,revenue_4 = 0,revenue_5 = 0
+    ,revenue_6 = 0,revenue_7 = 0,revenue_8 = 0,revenue_9 = 0,revenue_10 = 0
+    ,revenue_11 = 0,revenue_12 = 0;
+    DateFormat inputFormat = DateFormat('hh:mm:ss dd/MM/yyyy');
+    await users.get().then((value) async {
+      for(var data1 in value.docs){
+        await users.doc(data1.id).collection("purchase history").where("orderStatus", isEqualTo: "Đã nhận hàng")
+            .get().then((value) {
+          for(var data2 in value.docs){
+            switch(inputFormat.parse(data2.data()["orderDate"]).month){
+              case 1: {revenue_1 += data2.data()["total"] as int;};break;
+              case 2: {revenue_2 += data2.data()["total"] as int;};break;
+              case 3: {revenue_3 += data2.data()["total"] as int;};break;
+              case 4: {revenue_4 += data2.data()["total"] as int;};break;
+              case 5: {revenue_5 += data2.data()["total"] as int;};break;
+              case 6: {revenue_6 += data2.data()["total"] as int;};break;
+              case 7: {revenue_7 += data2.data()["total"] as int;};break;
+              case 8: {revenue_8 += data2.data()["total"] as int;};break;
+              case 9: {revenue_9 += data2.data()["total"] as int;};break;
+              case 10: {revenue_10 += data2.data()["total"] as int;};break;
+              case 1: {revenue_11 += data2.data()["total"] as int;};break;
+              default: {revenue_12 += data2.data()["total"] as int;};break;
+            }
+          }
+        });
+      }
+    });
+    print("Tháng 4: "+ revenue_4.toString());
+    print("Tháng 5: "+ revenue_5.toString());
+    print("Tháng 6: "+ revenue_6.toString());
+  }
+//--------------------------Statistic---------------------------------
+
 }

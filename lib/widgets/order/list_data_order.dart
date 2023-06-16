@@ -114,7 +114,9 @@ class _ListDataOrderWidgetState extends State<ListDataOrderWidget> {
             width: MediaQuery.of(context).size.width/17,
             child: IconButton(
               onPressed: () {
-                /*services.activeStore(
+                /*if(document['orderStatus']=="Đang xử lý")
+                services.activePuschase(
+                    uid: widget.uid,
                     id: document.id,
                     status: document['active']);*/
               },
@@ -123,7 +125,8 @@ class _ListDataOrderWidgetState extends State<ListDataOrderWidget> {
                 Icons.remove_circle,
                 color: Colors.grey,
               )
-                  : document['orderStatus']=="Đơn đã hủy"?const Icon(
+                  : document['orderStatus']=="Đơn đã hủy"
+              ?const Icon(
                 Icons.cancel,
                 color: Colors.red,
               ):const Icon(
@@ -151,7 +154,17 @@ class _ListDataOrderWidgetState extends State<ListDataOrderWidget> {
         DataCell(
           SizedBox(
             width: MediaQuery.of(context).size.width/18,
-            child: Text((document['products'] as List<dynamic>).length.toString(),textAlign: TextAlign.center),
+            child: FutureBuilder(
+              future: _services.users.doc(widget.uid).collection("purchase history").doc(document.id).collection("products").get(),
+              builder: (_, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot){
+                if(snapshot.hasData){
+                  return Text(snapshot.data!.docs.length.toString(),textAlign: TextAlign.center);
+                } else if(snapshot.hasError){
+                  return Container();
+                }
+                return CircularProgressIndicator();
+              },
+            ),
           ),
         ),
         //

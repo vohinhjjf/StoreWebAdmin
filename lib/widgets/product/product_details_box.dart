@@ -18,7 +18,9 @@ class _ProductDetailsBoxState extends State<ProductDetailsBox> {
   FirebaseServices _services = FirebaseServices();
   var _detail = TextEditingController();
   GlobalKey<FormState>  _formKey = GlobalKey<FormState>();
-
+  var _price = TextEditingController();
+  var _discount = TextEditingController();
+  double priceDiscount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,9 @@ class _ProductDetailsBoxState extends State<ProductDetailsBox> {
             );
           }
           _detail.text = snapshot.data!['details'];
+          _price.text = '${Format().currency(snapshot.data!['price'], decimal: false).replaceAll(RegExp(r','), '.')}';
+          _discount.text = '${snapshot.data!['discountPercentage']}';
+          priceDiscount = snapshot.data!['price']*(100-snapshot.data!['discountPercentage'])/100;
           return Dialog(
             child: Padding(
               padding: const EdgeInsets.all(15.0),
@@ -73,7 +78,7 @@ class _ProductDetailsBoxState extends State<ProductDetailsBox> {
                               ),
                               RichText(
                                 text: TextSpan(
-                                  text: '${Format().currency(snapshot.data!['price']*(100-snapshot.data!['discountPercentage'])/100, decimal: false).replaceAll(RegExp(r','), '.')}đ',
+                                  text: '${Format().currency(priceDiscount, decimal: false).replaceAll(RegExp(r','), '.')}đ',
                                   style: const TextStyle(
                                       fontSize: 20,
                                       color: Colors.red,
@@ -81,8 +86,95 @@ class _ProductDetailsBoxState extends State<ProductDetailsBox> {
                                   ),
                                 ),
                               ),
-                              if (snapshot.data!['discountPercentage'] != 0) Row(
+                              Row(
                                 children: [
+                                  const Text(
+                                    'Giá gốc: ',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10,),
+                                  SizedBox(
+                                    width: 330,
+                                    child: TextFormField(
+                                      controller: _price,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                      textAlign: TextAlign.end,
+                                      onChanged: (value){
+                                        setState(() {
+                                          if(_discount.text != "") {
+                                            priceDiscount = double.parse(value) *
+                                                (100 - double.parse(
+                                                    _discount.text)) / 100;
+                                          } else {
+                                            priceDiscount = double.parse(value);
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  const Text(
+                                    'đ',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Tỷ lệ giảm giá: ',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10,),
+                                  SizedBox(
+                                    width: 280,
+                                    child: TextFormField(
+                                      controller: _discount,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                      textAlign: TextAlign.end,
+                                      onChanged: (value){
+                                        setState(() {
+                                          if(_discount.text != "") {
+                                            priceDiscount = double.parse(_price.text) *
+                                                (100 - double.parse(
+                                                    value)) / 100;
+                                          } else {
+                                            priceDiscount = double.parse(_price.text);
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  const Text(
+                                    '%',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              /*if (snapshot.data!['discountPercentage'] != 0) Row(
+                                children: [
+                                  // TextFormField(
+                                  //   controller: ,
+                                  //   style: const TextStyle(
+                                  //       fontSize: 13,
+                                  //       color: Colors.grey,
+                                  //       decoration: TextDecoration.lineThrough
+                                  //   ),
+                                  //   onChanged: (value){
+                                  //
+                                  //   },
+                                  // ),
                                   Text(
                                     '${Format().currency(snapshot.data!['price'], decimal: false).replaceAll(RegExp(r','), '.')}đ',
                                     softWrap: true,
@@ -102,7 +194,7 @@ class _ProductDetailsBoxState extends State<ProductDetailsBox> {
                                     ),
                                   ),
                                 ],
-                              ),
+                              ),*/
                               const SizedBox(
                                 height: 5,
                               ),
