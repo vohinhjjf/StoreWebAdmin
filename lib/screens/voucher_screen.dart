@@ -7,8 +7,10 @@ import 'package:roundcheckbox/roundcheckbox.dart';
 
 class VoucherScreen extends StatefulWidget {
   static const String id = 'voucher-screen';
+
+  const VoucherScreen({super.key});
   @override
-  _VoucherScreenState createState() => _VoucherScreenState();
+  State<VoucherScreen> createState() => _VoucherScreenState();
 }
 
 class _VoucherScreenState extends State<VoucherScreen> {

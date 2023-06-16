@@ -5,8 +5,10 @@ import 'package:future_progress_dialog/future_progress_dialog.dart';
 
 class StoreScreen extends StatefulWidget {
   static const String id = 'store-screen';
+
+  const StoreScreen({super.key});
   @override
-  _StoreScreenState createState() => _StoreScreenState();
+  State<StoreScreen> createState() => _StoreScreenState();
 }
 
 class _StoreScreenState extends State<StoreScreen> {
@@ -15,7 +17,6 @@ class _StoreScreenState extends State<StoreScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return SingleChildScrollView(
       child: Container(
         alignment: Alignment.topLeft,
@@ -25,72 +26,73 @@ class _StoreScreenState extends State<StoreScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _visible
-                ?Container(
-              alignment: Alignment.center,
-              child: const Text(
-                'Thêm địa chỉ',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 36,
-                ),
-              ),
-            )
-                :Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Danh sách địa chỉ cửa hàng',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 36,
-                  ),
-                ),
-                SizedBox(
-                  height: 35,
-                  child: MaterialButton(
-                    color: Colors.lightBlue,
-                    onPressed: () {
-                      setState(() {
-                        _visible = !_visible;
-                      });
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Icon(
-                          // <-- Icon
-                          Icons.add,
-                          size: 12.0,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          'Thêm địa chỉ',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                          ),
-                        ), // <-- Text
-                      ],
+                ? Container(
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Thêm địa chỉ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 36,
+                      ),
                     ),
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Danh sách địa chỉ cửa hàng',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 36,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 35,
+                        child: MaterialButton(
+                          color: Colors.lightBlue,
+                          onPressed: () {
+                            setState(() {
+                              _visible = !_visible;
+                            });
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Icon(
+                                // <-- Icon
+                                Icons.add,
+                                size: 12.0,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                'Thêm địa chỉ',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
+                              ), // <-- Text
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+            const SizedBox(
+              height: 25,
             ),
-            const SizedBox(height: 25,),
             addLocation(),
-            const SizedBox(height: 25,),
-            Visibility(
-                visible: !_visible,
-                child: ListStoreWidget()
-            )
+            const SizedBox(
+              height: 25,
+            ),
+            Visibility(visible: !_visible, child: ListStoreWidget())
           ],
         ),
       ),
     );
   }
 
-  Widget addLocation(){
-    GlobalKey<FormState>  formKey = GlobalKey<FormState>();
+  Widget addLocation() {
+    GlobalKey<FormState> formKey = GlobalKey<FormState>();
     var nameText = TextEditingController();
     var addressText = TextEditingController();
     var longitudeText = TextEditingController();
@@ -99,27 +101,28 @@ class _StoreScreenState extends State<StoreScreen> {
       visible: _visible,
       child: Container(
         decoration: ShapeDecoration(
-          shadows: [
-            const BoxShadow(color: Colors.grey)
-          ],
+          shadows: const [BoxShadow(color: Colors.grey)],
           color: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
         ),
         alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width/2,
-        height: MediaQuery.of(context).size.height*.65,
+        width: MediaQuery.of(context).size.width / 2,
+        height: MediaQuery.of(context).size.height * .65,
         child: Padding(
-          padding: const EdgeInsets.only(left: 40,top: 30),
+          padding: const EdgeInsets.only(left: 40, top: 30),
           child: Form(
             key: formKey,
             child: Column(
               children: [
                 Row(
                   children: [
-                    const Text("Tên cửa hàng"
-                      ,style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                    const Text(
+                      "Tên cửa hàng",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(
                       width: 15,
                     ),
@@ -142,10 +145,10 @@ class _StoreScreenState extends State<StoreScreen> {
                               width: 1,
                             ),
                           ),
-                          contentPadding:
-                          const EdgeInsets.only(left: 20),),
-                        validator: (value){
-                          if(value!.isEmpty){
+                          contentPadding: const EdgeInsets.only(left: 20),
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
                             return 'Vui lòng nhập tên cửa hàng';
                           }
                           return null;
@@ -159,8 +162,11 @@ class _StoreScreenState extends State<StoreScreen> {
                 ),
                 Row(
                   children: [
-                    const Text("Địa chỉ"
-                      ,style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                    const Text(
+                      "Địa chỉ",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(
                       width: 68,
                     ),
@@ -183,13 +189,12 @@ class _StoreScreenState extends State<StoreScreen> {
                               width: 1,
                             ),
                           ),
-                          contentPadding:
-                          const EdgeInsets.only(left: 20),),
-                        validator: (value){
-                          if(value!.isEmpty){
+                          contentPadding: const EdgeInsets.only(left: 20),
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
                             return 'Vui lòng nhập địa chỉ';
-                          }
-                          else if(value.length <= 3){
+                          } else if (value.length <= 3) {
                             return 'Vui lòng nhập trên 3 kí tự';
                           }
                           return null;
@@ -203,8 +208,11 @@ class _StoreScreenState extends State<StoreScreen> {
                 ),
                 Row(
                   children: [
-                    const Text("Kinh độ"
-                      ,style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                    const Text(
+                      "Kinh độ",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(
                       width: 60,
                     ),
@@ -227,10 +235,10 @@ class _StoreScreenState extends State<StoreScreen> {
                               width: 1,
                             ),
                           ),
-                          contentPadding:
-                          const EdgeInsets.only(left: 20),),
-                        validator: (value){
-                          if(value!.isEmpty){
+                          contentPadding: const EdgeInsets.only(left: 20),
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
                             return 'Vui lòng nhập kinh độ';
                           }
                           return null;
@@ -244,8 +252,11 @@ class _StoreScreenState extends State<StoreScreen> {
                 ),
                 Row(
                   children: [
-                    const Text("Vĩ độ"
-                      ,style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                    const Text(
+                      "Vĩ độ",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(
                       width: 78,
                     ),
@@ -268,10 +279,10 @@ class _StoreScreenState extends State<StoreScreen> {
                               width: 1,
                             ),
                           ),
-                          contentPadding:
-                          const EdgeInsets.only(left: 20),),
-                        validator: (value){
-                          if(value!.isEmpty){
+                          contentPadding: const EdgeInsets.only(left: 20),
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
                             return 'Vui lòng nhập kinh độ';
                           }
                           return null;
@@ -317,14 +328,16 @@ class _StoreScreenState extends State<StoreScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 50,),
+                    const SizedBox(
+                      width: 50,
+                    ),
                     SizedBox(
                       height: 45,
                       width: 150,
                       child: MaterialButton(
                         color: Colors.lightBlue,
                         onPressed: () {
-                          if(formKey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             setState(() async {
                               _services.addStore(
                                   addressText.text,
@@ -333,11 +346,9 @@ class _StoreScreenState extends State<StoreScreen> {
                                   nameText.text);
                               await showDialog(
                                 context: context,
-                                builder: (context) =>
-                                    FutureProgressDialog(
-                                        Future.delayed(Duration(seconds: 3)),
-                                        message: Text('Loading...')
-                                    ),
+                                builder: (context) => FutureProgressDialog(
+                                    Future.delayed(const Duration(seconds: 3)),
+                                    message: const Text('Loading...')),
                               );
                               _visible = false;
                             });
@@ -353,7 +364,9 @@ class _StoreScreenState extends State<StoreScreen> {
                               size: 12.0,
                               color: Colors.white,
                             ),
-                            SizedBox(width: 10,),
+                            SizedBox(
+                              width: 10,
+                            ),
                             Text(
                               'Thêm',
                               style: TextStyle(

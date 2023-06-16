@@ -9,8 +9,10 @@ import '../widgets/blog/list_blogs_widget.dart';
 
 class BlogScrren extends StatefulWidget {
   static const String id = 'blog-screen';
+
+  const BlogScrren({super.key});
   @override
-  _BlogScreen createState() => _BlogScreen();
+  State<BlogScrren> createState() => _BlogScreen();
 }
 
 class _BlogScreen extends State<BlogScrren> {
@@ -23,10 +25,7 @@ class _BlogScreen extends State<BlogScrren> {
   TextEditingController shortText = TextEditingController();
   TextEditingController contentText = TextEditingController();
 
-  late String _url = "";
-  late File _cloudFile;
-  var _fileBytes;
-  late Image _imageWidget;
+  late final String _url = "";
   String formattedDate = '';
   String downloadUrl = '';
   final dateTime = DateTime.now();

@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eshop_admin/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../Model/chat_message_model.dart';
 
 class FirebaseServices {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -18,6 +23,8 @@ class FirebaseServices {
   CollectionReference request =
       FirebaseFirestore.instance.collection('Request Support');
   CollectionReference blogs = FirebaseFirestore.instance.collection('Blogs');
+  CollectionReference message =
+      FirebaseFirestore.instance.collection('messages');
   FirebaseStorage storage = FirebaseStorage.instance;
 
   Future<DocumentSnapshot> getAdminCredentials(id) {
@@ -151,9 +158,31 @@ class FirebaseServices {
   activePuschase({uid, id, status}) async {
     users.doc(uid).collection("purchase history").doc(id).update({'orderStatus': status});
   }
+//-------------------------Puschase------------------------------
 
-/*//-------------------------Puschase------------------------------
+//--------------------------Message---------------------------------
+  void sendMessage(String content, int type, String groupChatId,
+      String currentUserId, String peerId) {
+    DocumentReference documentReference = message
+        .doc(groupChatId)
+        .collection(groupChatId)
+        .doc(DateTime.now().millisecondsSinceEpoch.toString());
 
+    MessageChat messageChat = MessageChat(
+      idFrom: currentUserId,
+      idTo: peerId,
+      timestamp: DateTime.now().millisecondsSinceEpoch.toString(),
+      content: content,
+      type: type,
+    );
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      transaction.set(
+        documentReference,
+        messageChat.toJson(),
+      );
+    });
+  }
+  
   String getLastMessage(DocumentSnapshot? document) {
     MessageChat messageChat = MessageChat.fromDocument(document!);
     return messageChat.content;
@@ -192,6 +221,7 @@ class FirebaseServices {
     UploadTask uploadTask = reference.putFile(image);
     return uploadTask;
   }
+
 //--------------------------Message---------------------------------*/
 
 //--------------------------Statistic---------------------------------
@@ -228,4 +258,5 @@ class FirebaseServices {
     print("Tháng 6: "+ revenue_6.toString());
   }
 //--------------------------Statistic---------------------------------
+
 }

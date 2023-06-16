@@ -12,6 +12,8 @@ import 'package:path/path.dart' as Path;
 
 class ProductScreen extends StatefulWidget {
   static const String id = 'product-screen';
+
+  const ProductScreen({super.key});
   @override
   _ProductScreenState createState() => _ProductScreenState();
 }
