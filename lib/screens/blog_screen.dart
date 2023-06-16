@@ -5,13 +5,6 @@ import 'package:eshop_admin/services/firebase_services.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-import 'package:image_picker_web/image_picker_web.dart';
-import 'package:mime_type/mime_type.dart';
-import 'package:path/path.dart' as Path;
-=======
->>>>>>> Stashed changes
-
 import '../widgets/blog/list_blogs_widget.dart';
 
 class BlogScrren extends StatefulWidget {
@@ -24,7 +17,6 @@ class _BlogScreen extends State<BlogScrren> {
   final FirebaseServices _services = FirebaseServices();
   bool _visible = false;
   String ddCategory = "-- Chọn danh mục --";
-  final _fileNameTextController = TextEditingController();
   TextEditingController nameText = TextEditingController();
   TextEditingController percentText = TextEditingController();
   TextEditingController discountText = TextEditingController();

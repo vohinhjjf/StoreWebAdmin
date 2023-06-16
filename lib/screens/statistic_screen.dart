@@ -18,6 +18,8 @@ class StatisticScreen extends StatefulWidget {
 class _StatisticScreen extends State<StatisticScreen> {
   final FirebaseServices _services = FirebaseServices();
   int tag = 0, year = 2023, month = DateTime.now().month;
+  bool pickerIsExpanded = false;
+  final int _pickerYear = DateTime.now().year;
   DateFormat dateFormat = DateFormat('MM/yyyy');
   DateTime start_date = DateTime.now();
   DateTime end_date = DateTime.now();
@@ -62,13 +64,6 @@ class _StatisticScreen extends State<StatisticScreen> {
     150: '150',
   };
 
-  final bottomTitle_Day = {
-    0: '1',5: '2',10: '3',15: '4',20: '5',25: '6',30: '7',35: '8',40: '9',45: '10',
-    50: '11',55: '12',60: '13',65: '14',70: '15',75: '16',80: '17',85: '18',90: '19',
-    95: '20', 100: '21',105: '22',110: '23',115: '24',120: '25',125: '26',130: '27',
-    135: '28', 140: '29',145: '30',150: '31',
-  };
-
   final bottomTitle_Month = {
     0: 'Jan',
     50: 'Feb',
@@ -90,6 +85,33 @@ class _StatisticScreen extends State<StatisticScreen> {
     360: '2022',
     540: '2023',
   };
+
+  Map getDay(){
+    if(_selectedMonth.month == 2){
+      return {
+        0: '1',5: '2',10: '3',15: '4',20: '5',25: '6',30: '7',35: '8',40: '9',45: '10',
+        50: '11',55: '12',60: '13',65: '14',70: '15',75: '16',80: '17',85: '18',90: '19',
+        95: '20', 100: '21',105: '22',110: '23',115: '24',120: '25',125: '26',130: '27',
+        135: '28',
+      };
+    } else if (_selectedMonth.month == 1 || _selectedMonth.month == 3 || _selectedMonth.month == 5
+        || _selectedMonth.month == 7 || _selectedMonth.month == 8 || _selectedMonth.month == 10
+        || _selectedMonth.month == 12){
+      return {
+        0: '1',5: '2',10: '3',15: '4',20: '5',25: '6',30: '7',35: '8',40: '9',45: '10',
+        50: '11',55: '12',60: '13',65: '14',70: '15',75: '16',80: '17',85: '18',90: '19',
+        95: '20', 100: '21',105: '22',110: '23',115: '24',120: '25',125: '26',130: '27',
+        135: '28', 140: '29',145: '30',150: '31',
+      };
+    } else {
+      return {
+        0: '1',5: '2',10: '3',15: '4',20: '5',25: '6',30: '7',35: '8',40: '9',45: '10',
+        50: '11',55: '12',60: '13',65: '14',70: '15',75: '16',80: '17',85: '18',90: '19',
+        95: '20', 100: '21',105: '22',110: '23',115: '24',120: '25',125: '26',130: '27',
+        135: '28', 140: '29',145: '30',
+      };
+    }
+  }
 
   Future<void> queryRevenueByYear() async {
     double revenue_2020 = 0,revenue_2021 = 0,revenue_2022 = 0,revenue_2023 = 0;
@@ -249,39 +271,41 @@ class _StatisticScreen extends State<StatisticScreen> {
         await _services.users.doc(data1.id).collection("purchase history").where("orderStatus", isEqualTo: "Đã nhận hàng")
             .get().then((value) {
           for(var data2 in value.docs){
-            if(inputFormat.parse(data2.data()["orderDate"]).year == year) {
-              switch (inputFormat.parse(data2.data()["orderDate"]).month) {
-                case 1: revenue_1 += data2.data()["total"] as int;break;
-                case 2: revenue_2 += data2.data()["total"] as int;break;
-                case 3: revenue_3 += data2.data()["total"] as int;break;
-                case 4: revenue_4 += data2.data()["total"] as int;break;
-                case 5: revenue_5 += data2.data()["total"] as int;break;
-                case 6: revenue_6 += data2.data()["total"] as int;break;
-                case 7: revenue_7 += data2.data()["total"] as int;break;
-                case 8: revenue_8 += data2.data()["total"] as int;break;
-                case 9: revenue_9 += data2.data()["total"] as int;break;
-                case 10: revenue_10 += data2.data()["total"] as int;break;
-                case 11: revenue_11 += data2.data()["total"] as int;break;
-                case 12: revenue_12 += data2.data()["total"] as int;break;
-                case 13: revenue_13 += data2.data()["total"] as int;break;
-                case 14: revenue_14 += data2.data()["total"] as int;break;
-                case 15: revenue_15 += data2.data()["total"] as int;break;
-                case 16: revenue_16 += data2.data()["total"] as int;break;
-                case 17: revenue_17 += data2.data()["total"] as int;break;
-                case 18: revenue_18 += data2.data()["total"] as int;break;
-                case 19: revenue_19 += data2.data()["total"] as int;break;
-                case 20: revenue_20 += data2.data()["total"] as int;break;
-                case 21: revenue_21 += data2.data()["total"] as int;break;
-                case 22: revenue_22 += data2.data()["total"] as int;break;
-                case 23: revenue_23 += data2.data()["total"] as int;break;
-                case 24: revenue_24 += data2.data()["total"] as int;break;
-                case 25: revenue_25 += data2.data()["total"] as int;break;
-                case 26: revenue_26 += data2.data()["total"] as int;break;
-                case 27: revenue_27 += data2.data()["total"] as int;break;
-                case 28: revenue_28 += data2.data()["total"] as int;break;
-                case 29: revenue_29 += data2.data()["total"] as int;break;
-                case 30: revenue_30 += data2.data()["total"] as int;break;
-                default: revenue_31 += data2.data()["total"] as int;break;
+            if(inputFormat.parse(data2.data()["orderDate"]).year == _selectedMonth.year) {
+              if(inputFormat.parse(data2.data()["orderDate"]).month == _selectedMonth.month) {
+                switch (inputFormat.parse(data2.data()["orderDate"]).day) {
+                  case 1: revenue_1 += data2.data()["total"] as int;break;
+                  case 2: revenue_2 += data2.data()["total"] as int;break;
+                  case 3: revenue_3 += data2.data()["total"] as int;break;
+                  case 4: revenue_4 += data2.data()["total"] as int;break;
+                  case 5: revenue_5 += data2.data()["total"] as int;break;
+                  case 6: revenue_6 += data2.data()["total"] as int;break;
+                  case 7: revenue_7 += data2.data()["total"] as int;break;
+                  case 8: revenue_8 += data2.data()["total"] as int;break;
+                  case 9: revenue_9 += data2.data()["total"] as int;break;
+                  case 10: revenue_10 += data2.data()["total"] as int;break;
+                  case 11: revenue_11 += data2.data()["total"] as int;break;
+                  case 12: revenue_12 += data2.data()["total"] as int;break;
+                  case 13: revenue_13 += data2.data()["total"] as int;break;
+                  case 14: revenue_14 += data2.data()["total"] as int;break;
+                  case 15: revenue_15 += data2.data()["total"] as int;break;
+                  case 16: revenue_16 += data2.data()["total"] as int;break;
+                  case 17: revenue_17 += data2.data()["total"] as int;break;
+                  case 18: revenue_18 += data2.data()["total"] as int;break;
+                  case 19: revenue_19 += data2.data()["total"] as int;break;
+                  case 20: revenue_20 += data2.data()["total"] as int;break;
+                  case 21: revenue_21 += data2.data()["total"] as int;break;
+                  case 22: revenue_22 += data2.data()["total"] as int;break;
+                  case 23: revenue_23 += data2.data()["total"] as int;break;
+                  case 24: revenue_24 += data2.data()["total"] as int;break;
+                  case 25: revenue_25 += data2.data()["total"] as int;break;
+                  case 26: revenue_26 += data2.data()["total"] as int;break;
+                  case 27: revenue_27 += data2.data()["total"] as int;break;
+                  case 28: revenue_28 += data2.data()["total"] as int;break;
+                  case 29: revenue_29 += data2.data()["total"] as int;break;
+                  case 30: revenue_30 += data2.data()["total"] as int;break;
+                  default: revenue_31 += data2.data()["total"] as int;break;
+                }
               }
             }
           }
@@ -289,39 +313,107 @@ class _StatisticScreen extends State<StatisticScreen> {
       }
     });
     setState(() {
-      spots =  [
-        FlSpot(0, revenue_1/1000000),
-        FlSpot(5, revenue_2/1000000),
-        FlSpot(10, revenue_3/1000000),
-        FlSpot(15, revenue_4/1000000),
-        FlSpot(20, revenue_5/1000000),
-        FlSpot(25, revenue_6/1000000),
-        FlSpot(30, revenue_7/1000000),
-        FlSpot(35, revenue_8/1000000),
-        FlSpot(40, revenue_9/1000000),
-        FlSpot(45, revenue_10/1000000),
-        FlSpot(50, revenue_11/1000000),
-        FlSpot(55, revenue_12/1000000),
-        FlSpot(60, revenue_13/1000000),
-        FlSpot(65, revenue_14/1000000),
-        FlSpot(70, revenue_15/1000000),
-        FlSpot(75, revenue_16/1000000),
-        FlSpot(80, revenue_17/1000000),
-        FlSpot(85, revenue_18/1000000),
-        FlSpot(90, revenue_19/1000000),
-        FlSpot(95, revenue_20/1000000),
-        FlSpot(100, revenue_21/1000000),
-        FlSpot(105, revenue_22/1000000),
-        FlSpot(110, revenue_23/1000000),
-        FlSpot(115, revenue_24/1000000),
-        FlSpot(120, revenue_25/1000000),
-        FlSpot(125, revenue_26/1000000),
-        FlSpot(130, revenue_27/1000000),
-        FlSpot(135, revenue_28/1000000),
-        FlSpot(140, revenue_29/1000000),
-        FlSpot(145, revenue_30/1000000),
-        FlSpot(150, revenue_31/1000000),
-      ];
+      if(_selectedMonth.month == 2){
+        spots =  [
+          FlSpot(0, revenue_1/1000000),
+          FlSpot(5, revenue_2/1000000),
+          FlSpot(10, revenue_3/1000000),
+          FlSpot(15, revenue_4/1000000),
+          FlSpot(20, revenue_5/1000000),
+          FlSpot(25, revenue_6/1000000),
+          FlSpot(30, revenue_7/1000000),
+          FlSpot(35, revenue_8/1000000),
+          FlSpot(40, revenue_9/1000000),
+          FlSpot(45, revenue_10/1000000),
+          FlSpot(50, revenue_11/1000000),
+          FlSpot(55, revenue_12/1000000),
+          FlSpot(60, revenue_13/1000000),
+          FlSpot(65, revenue_14/1000000),
+          FlSpot(70, revenue_15/1000000),
+          FlSpot(75, revenue_16/1000000),
+          FlSpot(80, revenue_17/1000000),
+          FlSpot(85, revenue_18/1000000),
+          FlSpot(90, revenue_19/1000000),
+          FlSpot(95, revenue_20/1000000),
+          FlSpot(100, revenue_21/1000000),
+          FlSpot(105, revenue_22/1000000),
+          FlSpot(110, revenue_23/1000000),
+          FlSpot(115, revenue_24/1000000),
+          FlSpot(120, revenue_25/1000000),
+          FlSpot(125, revenue_26/1000000),
+          FlSpot(130, revenue_27/1000000),
+          FlSpot(135, revenue_28/1000000),
+        ];
+      } else if (_selectedMonth.month == 1 || _selectedMonth.month == 3 || _selectedMonth.month == 5
+          || _selectedMonth.month == 7 || _selectedMonth.month == 8 || _selectedMonth.month == 10
+          || _selectedMonth.month == 12){
+        spots =  [
+          FlSpot(0, revenue_1/1000000),
+          FlSpot(5, revenue_2/1000000),
+          FlSpot(10, revenue_3/1000000),
+          FlSpot(15, revenue_4/1000000),
+          FlSpot(20, revenue_5/1000000),
+          FlSpot(25, revenue_6/1000000),
+          FlSpot(30, revenue_7/1000000),
+          FlSpot(35, revenue_8/1000000),
+          FlSpot(40, revenue_9/1000000),
+          FlSpot(45, revenue_10/1000000),
+          FlSpot(50, revenue_11/1000000),
+          FlSpot(55, revenue_12/1000000),
+          FlSpot(60, revenue_13/1000000),
+          FlSpot(65, revenue_14/1000000),
+          FlSpot(70, revenue_15/1000000),
+          FlSpot(75, revenue_16/1000000),
+          FlSpot(80, revenue_17/1000000),
+          FlSpot(85, revenue_18/1000000),
+          FlSpot(90, revenue_19/1000000),
+          FlSpot(95, revenue_20/1000000),
+          FlSpot(100, revenue_21/1000000),
+          FlSpot(105, revenue_22/1000000),
+          FlSpot(110, revenue_23/1000000),
+          FlSpot(115, revenue_24/1000000),
+          FlSpot(120, revenue_25/1000000),
+          FlSpot(125, revenue_26/1000000),
+          FlSpot(130, revenue_27/1000000),
+          FlSpot(135, revenue_28/1000000),
+          FlSpot(140, revenue_29/1000000),
+          FlSpot(145, revenue_30/1000000),
+          FlSpot(150, revenue_31/1000000),
+        ];
+      } else {
+        spots =  [
+          FlSpot(0, revenue_1/1000000),
+          FlSpot(5, revenue_2/1000000),
+          FlSpot(10, revenue_3/1000000),
+          FlSpot(15, revenue_4/1000000),
+          FlSpot(20, revenue_5/1000000),
+          FlSpot(25, revenue_6/1000000),
+          FlSpot(30, revenue_7/1000000),
+          FlSpot(35, revenue_8/1000000),
+          FlSpot(40, revenue_9/1000000),
+          FlSpot(45, revenue_10/1000000),
+          FlSpot(50, revenue_11/1000000),
+          FlSpot(55, revenue_12/1000000),
+          FlSpot(60, revenue_13/1000000),
+          FlSpot(65, revenue_14/1000000),
+          FlSpot(70, revenue_15/1000000),
+          FlSpot(75, revenue_16/1000000),
+          FlSpot(80, revenue_17/1000000),
+          FlSpot(85, revenue_18/1000000),
+          FlSpot(90, revenue_19/1000000),
+          FlSpot(95, revenue_20/1000000),
+          FlSpot(100, revenue_21/1000000),
+          FlSpot(105, revenue_22/1000000),
+          FlSpot(110, revenue_23/1000000),
+          FlSpot(115, revenue_24/1000000),
+          FlSpot(120, revenue_25/1000000),
+          FlSpot(125, revenue_26/1000000),
+          FlSpot(130, revenue_27/1000000),
+          FlSpot(135, revenue_28/1000000),
+          FlSpot(140, revenue_29/1000000),
+          FlSpot(145, revenue_30/1000000),
+        ];
+      }
     });
   }
 
@@ -480,7 +572,7 @@ class _StatisticScreen extends State<StatisticScreen> {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: Text(
-                                _selectedMonth.month.toString(),
+                                "${_selectedMonth.month.toString()}/${_selectedMonth.year.toString()}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 26,
@@ -535,12 +627,12 @@ class _StatisticScreen extends State<StatisticScreen> {
                                         : const SizedBox();
                                   }
                                   else {
-                                    return bottomTitle_Day[value.toInt()] != null
+                                    return getDay()[value.toInt()] != null
                                         ? SideTitleWidget(
                                       axisSide: meta.axisSide,
                                       space: 10,
                                       child: Text(
-                                          bottomTitle_Day[value.toInt()].toString(),
+                                          getDay()[value.toInt()].toString(),
                                           style: const TextStyle(
                                               fontSize: 16,
                                               color: Colors.grey)),
@@ -630,10 +722,7 @@ class _StatisticScreen extends State<StatisticScreen> {
     );
   }
 
-  bool pickerIsExpanded = false;
-  int _pickerYear = DateTime.now().year;
-
-  List<Widget> generateRowOfMonths(from, to) {
+  List<Widget> generateRowOfMonths(from, to, int pickerYear, DateTime selectedMonth) {
     List<Widget> months = [];
     for (int i = from; i <= to; i++) {
       DateTime dateTime = DateTime(_pickerYear, i, 1);
@@ -654,6 +743,8 @@ class _StatisticScreen extends State<StatisticScreen> {
             onPressed: () {
               setState(() {
                 _selectedMonth = dateTime;
+                Navigator.pop(context);
+                _showTimeDialog(pickerYear, selectedMonth);
               });
             },
             style: TextButton.styleFrom(
@@ -669,28 +760,6 @@ class _StatisticScreen extends State<StatisticScreen> {
     }
     return months;
   }
-
-  List<Widget> generateMonths() {
-    return [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: generateRowOfMonths(1, 3),
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: generateRowOfMonths(4, 6),
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: generateRowOfMonths(7, 9),
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: generateRowOfMonths(10, 12),
-      ),
-    ];
-  }
-
 
   _showTimeDialog(int pickerYear, DateTime selectedMonth){
     showDialog(
@@ -744,7 +813,22 @@ class _StatisticScreen extends State<StatisticScreen> {
                                 ),
                               ],
                             ),
-                            ...generateMonths(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: generateRowOfMonths(1, 3, pickerYear, selectedMonth),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: generateRowOfMonths(4, 6, pickerYear, selectedMonth),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: generateRowOfMonths(7, 9, pickerYear, selectedMonth),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: generateRowOfMonths(10, 12, pickerYear, selectedMonth),
+                            ),
                             const SizedBox(
                               height: 10.0,
                             ),
@@ -756,7 +840,7 @@ class _StatisticScreen extends State<StatisticScreen> {
                   const SizedBox(
                     height: 20.0,
                   ),
-                  Text(DateFormat.yMMMM().format(selectedMonth)),
+                  Text(DateFormat.yMMMM().format(_selectedMonth)),
                   const SizedBox(
                     height: 5.0,
                   ),

@@ -151,9 +151,8 @@ class FirebaseServices {
   activePuschase({uid, id, status}) async {
     users.doc(uid).collection("purchase history").doc(id).update({'orderStatus': status});
   }
-<<<<<<< Updated upstream
-//-------------------------Puschase------------------------------
-=======
+
+/*//-------------------------Puschase------------------------------
 
   String getLastMessage(DocumentSnapshot? document) {
     MessageChat messageChat = MessageChat.fromDocument(document!);
@@ -193,7 +192,7 @@ class FirebaseServices {
     UploadTask uploadTask = reference.putFile(image);
     return uploadTask;
   }
-//--------------------------Message---------------------------------
+//--------------------------Message---------------------------------*/
 
 //--------------------------Statistic---------------------------------
   Future<void> queryRevenueByYear() async {
@@ -229,5 +228,4 @@ class FirebaseServices {
     print("Tháng 6: "+ revenue_6.toString());
   }
 //--------------------------Statistic---------------------------------
->>>>>>> Stashed changes
 }
