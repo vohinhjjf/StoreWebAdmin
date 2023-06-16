@@ -3,7 +3,6 @@ import 'dart:html';
 import 'package:eshop_admin/services/firebase_services.dart';
 import 'package:eshop_admin/widgets/product/list_product_widget.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -624,6 +623,7 @@ class _ProductScreenState extends State<ProductScreen> {
       ),
     );
   }
+
   Future<void> getMultipleImageInfos() async {
     var mediaData = await ImagePickerWeb.getImageInfo;
 

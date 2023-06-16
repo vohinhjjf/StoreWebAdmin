@@ -22,7 +22,7 @@ class _VoucherScreenState extends State<VoucherScreen> {
       child: Container(
         alignment: Alignment.topLeft,
         padding: const EdgeInsets.all(30),
-        height: MediaQuery.of(context).size.height,
+        //height: MediaQuery.of(context).size.height,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

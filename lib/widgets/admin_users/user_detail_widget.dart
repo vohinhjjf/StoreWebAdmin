@@ -276,6 +276,7 @@ class _UserDetailWidgetState extends State<UserDetailWidget> with SingleTickerPr
           );
         });
   }
+
   Widget buildDetail(DocumentSnapshot document) {
     return Stack(
       fit: StackFit.expand,

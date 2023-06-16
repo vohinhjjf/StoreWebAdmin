@@ -14,6 +14,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'screens/chat_screen.dart';
+import 'screens/statistic_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         VoucherScreen.id:(context)=>VoucherScreen(),
         RequestScreen.id:(context)=>RequestScreen(),
         ChatWidget.id:(context)=>ChatWidget(),
+        StatisticScreen.id:(context)=>StatisticScreen(),
       },
     );
   }
