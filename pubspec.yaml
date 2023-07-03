@@ -57,7 +57,6 @@ dependencies:
   provider: ^6.0.5
   cached_network_image: ^3.2.3
   fl_chart: ^0.62.0
-  flutter_datetime_picker: ^1.5.1
   
 dev_dependencies:
   flutter_test:

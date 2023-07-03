@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xFF84c225),
       ),
-      initialRoute: SplashScreen.id,
+      initialRoute: DashBoardScreen.id,
       routes: {
         SplashScreen.id:(context)=>SplashScreen(),
         LoginScreen.id:(context)=>LoginScreen(),

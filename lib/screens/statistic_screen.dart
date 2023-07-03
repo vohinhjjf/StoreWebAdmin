@@ -1,7 +1,6 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../data/time_picker.dart';
@@ -590,9 +589,9 @@ class _StatisticScreen extends State<StatisticScreen> {
                       child: LineChart(
                         LineChartData(
                           lineTouchData: LineTouchData(
-                            handleBuiltInTouches: true,
+                            handleBuiltInTouches: false,
                           ),
-                          gridData: FlGridData(show: false),
+                          gridData: FlGridData(show: true),
                           titlesData: FlTitlesData(
                             bottomTitles: AxisTitles(
                               sideTitles: SideTitles(

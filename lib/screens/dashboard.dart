@@ -253,7 +253,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 AdminUsers(),
                 const BannerScreen(),
                 ChatWidget(),
-                StatisticScreen()
+                StatisticScreen(),
               ],
             ),
           ),
